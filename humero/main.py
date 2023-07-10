@@ -75,7 +75,11 @@ class Humero:
 
         # TODO: Documents already come with an embedding, how can we use them to save resources?
         # TODO: Add extra metadata: Actual openAccessPDF, title, author, etc.
-        self.docsearch = self.Pinecone.from_documents(
+        pinecone.init(
+            api_key=os.environ["PINECONE_API_KEY"],
+            environment=os.environ["PINECONE_API_ENV"]
+        )
+        self.docsearch = Pinecone.from_documents(
             combined_docs, self.embeddings, index_name=self.index_name)
 
 
