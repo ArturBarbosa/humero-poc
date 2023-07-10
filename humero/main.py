@@ -43,16 +43,18 @@ class Humero:
         """
         # search papers
         sch = SemanticScholar()
-        results = sch.get_papers(paper_ids, fields=['title', 'openAccessPdf', 'references', 'embedding'])
+        results = sch.get_papers(paper_ids)
         
         papers = copy.deepcopy(results)
         # Print out added papers
         print(color.BOLD + "Adding papers:" + color.END)
         for paper in results:
             print("   -", paper.title)
+            print(paper)
             print("    ", len(paper.references), "references \n")
 
             # get references recursively
+            # TODO: Do it recursively by k levels (level param)
             # TODO: Some paperIds are None, is it possible to fetch it using other info?
             reference_ids = [reference.paperId for reference in paper.references if reference.paperId is not None]
             references = sch.get_papers(reference_ids, fields=['title', 'openAccessPdf', 'embedding'])
@@ -74,11 +76,15 @@ class Humero:
             print("   -", paper.title)
 
         # TODO: Documents already come with an embedding, how can we use them to save resources?
-        # TODO: Add extra metadata: Actual openAccessPDF, title, author, etc.
+            # Mimic this: https://github.com/hwchase17/langchain/blob/560c4dfc98287da1bc0cfc1caebbe86d1e66a94d/langchain/vectorstores/pinecone.py#L252
+        # TODO: Add extra metadata: Actual openAccessPDF, title, author, etc. Also indicate which ones are the main papers
         pinecone.init(
             api_key=os.environ["PINECONE_API_KEY"],
             environment=os.environ["PINECONE_API_ENV"]
         )
+
+        Pinecone.delete(delete_all=True)
+
         self.docsearch = Pinecone.from_documents(
             combined_docs, self.embeddings, index_name=self.index_name)
 
@@ -90,6 +96,7 @@ class Humero:
         # Print out sources
         print(color.BOLD + "Sources: " + color.END)
         sources = [doc.metadata for doc in docs]
+        # TODO: Show relevant document excerpts and sources with metadata
         for source in sources:
             print("-----------------------------------------")
             print(color.BOLD + "Page: " + color.END + str(int(source["page"])))
