@@ -1,0 +1,5 @@
+default:
+  OPEN_AI_KEY: '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'
+  PINECONE_INDEX_NAME: 'humero'
+  PINECONE_API_KEY: '81e758f8-0626-4115-91ab-8c3e6423520d'
+  PINECONE_API_ENV: 'us-west4-gcp-free'

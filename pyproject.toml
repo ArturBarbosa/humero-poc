@@ -8,6 +8,11 @@ packages = [{include = "humero_poc"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+langchain = "^0.0.227"
+jupyter = "^1.0.0"
+scholarly = "^1.7.11"
+dynaconf = "^3.1.12"
+semanticscholar = "^0.4.1"
 
 
 [build-system]
