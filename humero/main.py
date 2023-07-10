@@ -20,7 +20,7 @@ os.environ["PINECONE_API_ENV"] = 'us-west4-gcp-free'
 
 class Humero:
     def __init__(self):
-        # Define private variables
+        # Define privat e variables
         #self.index_name = os.environ["PINECONE_INDEX_NAME"]
 
         self.embeddings = OpenAIEmbeddings()
@@ -97,6 +97,7 @@ class Humero:
         print(color.BOLD + "Sources: " + color.END)
         sources = [doc.metadata for doc in docs]
         # TODO: Show relevant document excerpts and sources with metadata
+            # Will probably need to create a custom chain, here's a good reference: https://github.com/whitead/paper-qa/blob/main/paperqa/prompts.py
         for source in sources:
             print("-----------------------------------------")
             print(color.BOLD + "Page: " + color.END + str(int(source["page"])))
